@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Public Contacts Directory</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>Contacts Directory</h1>
+    <p class="sub" id="updated"></p>
+  </header>
+  <main>
+    <div class="controls">
+      <label class="sr-only" for="q">Search contacts</label>
+      <input id="q" type="search" placeholder="Search name, organization, title, county…" autocomplete="off" />
+      <div class="pills" id="regions" role="group" aria-label="Filter by region"></div>
+      <label class="sr-only" for="county">County</label>
+      <select id="county"><option value="">All counties</option></select>
+    </div>
+    <p id="count" role="status" aria-live="polite"></p>
+    <ul id="list"></ul>
+    <button id="more" hidden>Show more</button>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
