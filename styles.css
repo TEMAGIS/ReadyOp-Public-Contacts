@@ -19,3 +19,4 @@ li{background:var(--card);border:1px solid var(--line);border-radius:10px;paddin
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 #more[hidden]{display:none}
 .label{white-space:pre-line;line-height:1.45}.label::first-line{font-weight:600}
+.stale{background:#fff4d6;border:1px solid #e0b84a;color:#5a4300;border-radius:8px;padding:8px 12px;margin:0 0 12px;font-size:.9rem}

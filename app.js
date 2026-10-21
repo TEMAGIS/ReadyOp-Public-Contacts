@@ -84,6 +84,12 @@ async function init() {
     const data = await res.json();
     all = data.contacts || [];
     if (data.generated) $("updated").textContent = "Updated " + new Date(data.generated).toLocaleDateString();
+    if (data.stale) {
+      const n = el("p", "stale", "Live data is temporarily unavailable. Showing the most recent saved copy from " +
+        new Date(data.generated).toLocaleString() + ".");
+      n.setAttribute("role", "status");
+      document.querySelector("main").prepend(n);
+    }
     buildFilters();
     apply();
   } catch (e) {
