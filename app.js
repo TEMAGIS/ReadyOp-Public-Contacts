@@ -2,10 +2,16 @@
 // holds the ReadyOp token and returns only public-flagged records.
 // Worker URL (change if you rename the Worker or use another Cloudflare account).
 const API_URL = "https://readyop-public-contacts.tnreadyop.workers.dev/contacts";
+const BATCH = 100;
 const REGIONS = ["West", "Middle", "Southeast", "East"];
 const $ = (id) => document.getElementById(id);
 let all = [], shown = 0, filtered = [], region = "", county = "";
 
+function fmtPhone(p) {
+  let d = p.replace(/\D/g, "");
+  if (d.length === 11 && d[0] === "1") d = d.slice(1);
+  return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : p;
+}
 const norm = (s) => String(s || "").toLowerCase();
 const hay = (c) => norm([c.first, c.last, c.organization, c.title, c.county, c.region, c.city].join(" "));
 
@@ -25,7 +31,7 @@ function row(c) {
   if (loc) li.append(el("div", "meta", loc));
   const digits = c.phone.replace(/[^\d+]/g, "");
   if (digits) {
-    const a = el("a", "phone", c.phone);
+    const a = el("a", "phone", fmtPhone(c.phone));
     a.href = "tel:" + digits;
     li.append(a);
   }
