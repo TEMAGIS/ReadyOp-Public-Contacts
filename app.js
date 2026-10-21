@@ -13,7 +13,7 @@ function fmtPhone(p) {
   return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : p;
 }
 const norm = (s) => String(s || "").toLowerCase();
-const hay = (c) => norm([c.first, c.last, c.organization, c.title, c.county, c.region, c.city].join(" "));
+const hay = (c) => norm([c.first, c.last, c.organization, c.title, c.county, c.region, c.address, c.city, c.zip].join(" "));
 
 function el(tag, cls, text) {
   const e = document.createElement(tag);
@@ -24,17 +24,22 @@ function el(tag, cls, text) {
 
 function row(c) {
   const li = el("li");
-  li.append(el("div", "name", [c.first, c.last].filter(Boolean).join(" ") || "(no name)"));
-  const org = [c.title, c.organization].filter(Boolean).join(" · ");
-  if (org) li.append(el("div", "meta", org));
+  // Same layout as the editor's "Mailing Address Label":
+  //   Name, Title / Organization / Address / Address 2 / City, ST ZIP
+  const lines = [];
+  const nameLine = [[c.first, c.last].filter(Boolean).join(" "), c.title].filter(Boolean).join(", ");
+  if (nameLine) lines.push(nameLine);
+  if (c.organization) lines.push(c.organization);
+  if (c.address) lines.push(c.address);
+  if (c.address2) lines.push(c.address2);
+  let cityLine = c.city || "";
+  if (c.state) cityLine = cityLine ? `${cityLine}, ${c.state}` : c.state;
+  if (c.zip) cityLine = cityLine ? `${cityLine} ${c.zip}` : c.zip;
+  if (cityLine) lines.push(cityLine);
+  li.append(el("div", "label", lines.join("\n") || "(no name)"));
   const loc = [c.county && `${c.county} County`, c.region && `${c.region} Region`].filter(Boolean).join(" · ");
   if (loc) li.append(el("div", "meta", loc));
-  const digits = c.phone.replace(/[^\d+]/g, "");
-  if (digits) {
-    const a = el("a", "phone", fmtPhone(c.phone));
-    a.href = "tel:" + digits;
-    li.append(a);
-  }
+  if (c.phone) li.append(el("div", "phone", fmtPhone(c.phone)));
   return li;
 }
 

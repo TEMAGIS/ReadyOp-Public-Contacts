@@ -14,7 +14,8 @@ input,select{width:100%;padding:10px 12px;font:inherit;color:var(--fg);backgroun
 ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
 .name{font-weight:600}.meta{color:var(--muted);font-size:.9rem}
-.phone{display:inline-block;margin-top:6px;color:var(--accent);font-weight:600;text-decoration:none}
+.phone{margin-top:6px;font-weight:600}
 #more{display:block;margin:14px auto;padding:10px 20px;font:inherit;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 #more[hidden]{display:none}
+.label{white-space:pre-line;line-height:1.45}.label::first-line{font-weight:600}
