@@ -39,7 +39,23 @@ function row(c) {
   li.append(el("div", "label", lines.join("\n") || "(no name)"));
   const loc = [c.county && `${c.county} County`, c.region && `${c.region} Region`].filter(Boolean).join(" · ");
   if (loc) li.append(el("div", "meta", loc));
-  if (c.phone) li.append(el("div", "phone", fmtPhone(c.phone)));
+  // Phone and email are tappable: tel: opens the dialer, mailto: the mail app.
+  const digits = (c.phone || "").replace(/[^\d+]/g, "");
+  if (digits) {
+    const p = el("a", "contact-link phone", fmtPhone(c.phone));
+    p.href = "tel:" + digits;
+    li.append(p);
+  }
+  const email = (c.email || "").trim();
+  if (email) {
+    if (/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(email)) {
+      const m = el("a", "contact-link email", email);
+      m.href = "mailto:" + email;
+      li.append(m);
+    } else {
+      li.append(el("div", "email", email)); // not a valid address: show as text only
+    }
+  }
   return li;
 }
 
